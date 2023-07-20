@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Assistant</title>
+    <style>
+        body{
+            margin: 0px;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+
+        .main{
+            height: 100vh;
+            width: 100%;
+            margin: 0px auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-evenly;
+            background-image: linear-gradient(180deg, #4e525e, #31333b, #1a1b1f);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        
+        nav{
+            width: 100%;
+            height: 40px;
+            text-align: center;
+            background: none;
+            color: white;
+            position: fixed;
+            top: 0px;
+        }
+        
+        #outputArea{
+            height: 550px;
+            width: 370px;
+            margin: 0px auto;
+            padding: 20px;
+            background: none;
+            top: 50px;
+            overflow-y: scroll;
+            /*display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;*/
+         }
+         
+        #output{
+            float: right;
+            max-width: 200px;
+            margin: 5px;
+            display: block;
+            background-image: linear-gradient(180deg, rgb(231, 67, 67), rgb(148, 34, 34));
+            background-repeat: no-repeat;
+            background-attachment: local;
+            color: white;
+            padding: 5px;
+            border-radius: 10px;
+            text-align: right;
+            font-size: 1.2rem;
+        }
+        
+        #response{
+            float: left;
+            width: 350px;
+            margin: 5px;
+            display: block;
+            text-align: left;
+            padding: 5px;
+            font-size: 1.0rem;
+            font-weight: bolder;
+            color: white;
+        }
+        
+        input{
+            width: 300px;
+            min-height: 50px;
+            margin: 0px auto;
+            position: absolute;
+            bottom: 20px;
+            border-radius: 10px;
+            background-image: linear-gradient(180deg, #3e3f42, #2a2b30);
+            background-repeat: no-repeat;
+            background-attachment: local;
+            border: none;
+            font-size: 1.1rem;
+            color: white;
+        }
+        
+        button{
+            height: 50px;
+            width: 50px;
+            position: absolute;
+            bottom: 22px;
+            right: 60px;
+            border: none;
+            border-radius: 8px;
+            background-color: #758baf;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <nav>
+            <h1>Chat Bot</h1>
+        </nav>
+        <div id="outputArea">
+        </div>
+        <input type="text" id="input">
+        <button onclick="reply()">Go</button>
+    </div>
+    <script>
+        const main = document.getElementById('outputArea');
+        const input = document.getElementById('input');
+
+        const repliesToHi = [
+            "Hello! How are you today?",
+            "Hey there! What's new with you?",
+            "Hi! Nice to see you again",
+            "Yes! How can I help you?",
+            "Hiya! What's going on?"
+        ];
+
+        const repliesToFavSong = [
+            "I am not capable of enjoying music since I am not human. But I love the sound of my creator typing some more functionality into my code!",
+            "I don't have a favourite song since I am not equipped with the ability to listen to sounds.",
+            "I am a chatbot. I can't listen to music like humans do. I wonder what it feels like to enjoy a good melody. Must be nice",
+            "Sadly, I do not have a favourite song. What is your's though?",
+            "I don't listen to music. But my creator loves the Keith Sweat song Titled Twisted."
+        ];
+
+        const jokes = [
+            "Why dont some couples go to the gym? \nBecause some relationships don't workout!",
+            "A 39 year old pastor died, attempting a 40 day fast. \nGuess he didn't make it to 40!"
+        ]
+
+        //The function below gets a random reply from any of the reply arrays when it is called
+
+        function getRandomReply(arr) {
+            const randomIndex = Math.floor(Math.random() * arr.length);
+            return arr[randomIndex];
+        }
+
+        //The function below is called if the user inquires of the age of the bot.
+
+        function getAge() {
+            const currentDate = new Date();
+            const currentYear = currentDate.getFullYear();
+            const dob = 2023;
+            const age = currentYear - dob;
+
+            return "I was created in 2023, so I am " + age + " years old.";
+        }
+
+        //The function below gets the time and should be called anytime the user asks for it
+
+        function getTime() {
+            const currentTime = new Date();
+            const hours = currentTime.getHours();
+            const minutes = currentTime.getMinutes();
+
+            return "The local time is " + hours + " : " + minutes;
+        }
+
+        //The function below gets the current date and should be called when the user asks for the date
+
+        function getDate() {
+            const currentDate = new Date();
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth() + 1;
+            const day = currentDate.getDate();
+
+            return "Today is " + day + " / " + month + " / " + year;
+        }
+
+        //The function below is called on if the user wants to solve a simple calculation
+
+        function calculate(query) {
+            const pattern = /(\d+)\s*([\+\-\*\/])\s*(\d+)/;
+            const match = query.match(pattern);
+            
+            if(match) {
+                const operand1 = parseInt(match[1]);
+                const operator = match[2];
+                const operand2 = parseInt(match[3]);
+
+                let result;
+                switch(operator) {
+                    case "+":
+                    result = operand1 + operand2;
+                    break;
+
+                    case "-":
+                    result = operand1 - operand2;
+                    break;
+
+                    case "*":
+                    result = operand1 * operand2;
+                    break;
+
+                    case "/":
+                    result = operand1 / operand2;
+                    break;
+
+                    default:
+                    result = "Invalid Operator";
+                    break;
+                }
+
+                return result;
+            }
+        }
+
+        //The function below clears the input field of any characters once the go button is clicked
+
+        function clearInput() {
+            input.value = "";
+        }
+
+        function reply() {
+            let query = input.value.toLowerCase();
+
+            if (!query) {
+                return;
+            }
+
+            const newElement = document.createElement('p');
+            newElement.textContent = query;
+            newElement.id = "output";
+            main.appendChild(newElement);
+
+            if (query.includes("hi") || query.includes('hey') || query.includes('hello')) {
+                const responseElement = document.createElement('p');
+                responseElement.textContent = getRandomReply(repliesToHi);
+                responseElement.id = "response";
+                main.appendChild(responseElement);
+            }
+
+            if (query.includes("how're you") || query.includes('how you') || query.includes('you doing')) {
+                const responseElement = document.createElement('p');
+                responseElement.textContent = "I am good. What about you?";
+                responseElement.id = "response";
+                main.appendChild(responseElement);
+            }
+
+            if (query.includes("i'm fine") || query.includes('also fine') || query.includes('am fine')) {
+                const responseElement = document.createElement('p');
+                responseElement.textContent = "Great! How can I assist you today?";
+                responseElement.id = "response";
+                main.appendChild(responseElement);
+            }
+
+            if (query.includes("old are you") || query.includes('your age') || query.includes('were you created')) {
+                const responseElement = document.createElement('p');
+                responseElement.textContent = getAge();
+                responseElement.id = "response";
+                main.appendChild(responseElement);
+            }
+
+            if (query.includes("the time") || query.includes('time is it') || query.includes('time') || query.includes('tell me time')) {
+                const responseElement = document.createElement('p');
+                responseElement.textContent = getTime();
+                responseElement.id = "response";
+                main.appendChild(responseElement);
+            }
+
+            if (query.includes("the date") || query.includes('date') || query.includes('what day') || query.includes("today's date")) {
+                const responseElement = document.createElement('p');
+                responseElement.textContent = getDate();
+                responseElement.id = "response";
+                main.appendChild(responseElement);
+            }
+
+            if (query.includes("a joke") || query.includes('me laugh')) {
+                const responseElement = document.createElement('p');
+                responseElement.textContent = getRandomReply(jokes);
+                responseElement.id = "response";
+                main.appendChild(responseElement);
+            }
+
+            if (query.includes("your song") || query.includes('your favourite song') || query.includes('you have a favourite song')) {
+                const responseElement = document.createElement('p');
+                responseElement.textContent = getRandomReply(repliesToFavSong);
+                responseElement.id = "response";
+                main.appendChild(responseElement);
+            }
+
+            if (query.includes("solve") || query.includes('add') || query.includes('calculate')) {
+                const result = calculate(query);
+
+                if(result !== undefined) {
+                    const responseElement = document.createElement('p');
+                    responseElement.textContent = result;
+                    responseElement.id = "response";
+                    main.appendChild(responseElement);
+
+                }
+            }
+            
+            
+            /*else {
+                // Add a default response for unrecognized queries
+                const responseElement = document.createElement('p');
+                responseElement.textContent = "I'm sorry, I don't understand that. Can you please try asking something else?";
+                responseElement.id = "response";
+                main.appendChild(responseElement);
+            }*/
+
+            clearInput();
+        }
+    </script>
+</body>
+</html>
