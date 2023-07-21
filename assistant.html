@@ -16,8 +16,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: space-evenly;
-            background-image: linear-gradient(180deg, #4e525e, #31333b, #1a1b1f);
+            justify-content: space-evenly;;
             background-repeat: no-repeat;
             background-attachment: fixed;
         }
@@ -26,24 +25,31 @@
             width: 100%;
             height: 40px;
             text-align: center;
-            background: none;
+            background-color: #1a1b1f;
             color: white;
             position: fixed;
             top: 0px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         #outputArea{
-            height: 550px;
-            width: 370px;
+            height: 450px;
+            width: 350px;
             margin: 0px auto;
             padding: 20px;
-            background: none;
-            top: 50px;
+            border-radius: 20px;
+            background-color: #1a1b1f;
             overflow-y: scroll;
             /*display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;*/
+         }
+
+         #outputArea::-webkit-scrollbar{
+            display: none;
          }
          
         #output{
@@ -51,7 +57,7 @@
             max-width: 200px;
             margin: 5px;
             display: block;
-            background-image: linear-gradient(180deg, rgb(231, 67, 67), rgb(148, 34, 34));
+            background-image: linear-gradient(180deg, rgb(81, 136, 168), rgb(25, 96, 124));
             background-repeat: no-repeat;
             background-attachment: local;
             color: white;
@@ -63,7 +69,7 @@
         
         #response{
             float: left;
-            width: 350px;
+            width: 300px;
             margin: 5px;
             display: block;
             text-align: left;
@@ -133,7 +139,9 @@
 
         const jokes = [
             "Why dont some couples go to the gym? \nBecause some relationships don't workout!",
-            "A 39 year old pastor died, attempting a 40 day fast. \nGuess he didn't make it to 40!"
+            "A 39 year old pastor died, attempting a 40 day fast. \nGuess he didn't make it to 40!",
+            "Why don't scientists trust atoms? \nBecause they make up everything!",
+            "Why don't skeletons fight each other? \nThey don't have guts!"
         ]
 
         //The function below gets a random reply from any of the reply arrays when it is called
@@ -238,56 +246,56 @@
                 main.appendChild(responseElement);
             }
 
-            if (query.includes("how're you") || query.includes('how you') || query.includes('you doing')) {
+            else if (query.includes("how're you") || query.includes('how you') || query.includes('you doing') || query.includes('how are you')) {
                 const responseElement = document.createElement('p');
                 responseElement.textContent = "I am good. What about you?";
                 responseElement.id = "response";
                 main.appendChild(responseElement);
             }
 
-            if (query.includes("i'm fine") || query.includes('also fine') || query.includes('am fine')) {
+            else if (query.includes("i'm fine") || query.includes('also fine') || query.includes('am fine')) {
                 const responseElement = document.createElement('p');
                 responseElement.textContent = "Great! How can I assist you today?";
                 responseElement.id = "response";
                 main.appendChild(responseElement);
             }
 
-            if (query.includes("old are you") || query.includes('your age') || query.includes('were you created')) {
+            else if (query.includes("old are you") || query.includes('your age') || query.includes('were you created')) {
                 const responseElement = document.createElement('p');
                 responseElement.textContent = getAge();
                 responseElement.id = "response";
                 main.appendChild(responseElement);
             }
 
-            if (query.includes("the time") || query.includes('time is it') || query.includes('time') || query.includes('tell me time')) {
+            else if (query.includes("the time") || query.includes('time is it') || query.includes('time') || query.includes('tell me time')) {
                 const responseElement = document.createElement('p');
                 responseElement.textContent = getTime();
                 responseElement.id = "response";
                 main.appendChild(responseElement);
             }
 
-            if (query.includes("the date") || query.includes('date') || query.includes('what day') || query.includes("today's date")) {
+            else if (query.includes("the date") || query.includes('date') || query.includes('what day') || query.includes("today's date")) {
                 const responseElement = document.createElement('p');
                 responseElement.textContent = getDate();
                 responseElement.id = "response";
                 main.appendChild(responseElement);
             }
 
-            if (query.includes("a joke") || query.includes('me laugh')) {
+            else if (query.includes("a joke") || query.includes('me laugh')) {
                 const responseElement = document.createElement('p');
                 responseElement.textContent = getRandomReply(jokes);
                 responseElement.id = "response";
                 main.appendChild(responseElement);
             }
 
-            if (query.includes("your song") || query.includes('your favourite song') || query.includes('you have a favourite song')) {
+            else if (query.includes("your song") || query.includes('your favourite song') || query.includes('you have a favourite song')) {
                 const responseElement = document.createElement('p');
                 responseElement.textContent = getRandomReply(repliesToFavSong);
                 responseElement.id = "response";
                 main.appendChild(responseElement);
             }
 
-            if (query.includes("solve") || query.includes('add') || query.includes('calculate')) {
+            else if (query.includes("solve") || query.includes('add') || query.includes('calculate')) {
                 const result = calculate(query);
 
                 if(result !== undefined) {
@@ -297,16 +305,7 @@
                     main.appendChild(responseElement);
 
                 }
-            }
-            
-            
-            /*else {
-                // Add a default response for unrecognized queries
-                const responseElement = document.createElement('p');
-                responseElement.textContent = "I'm sorry, I don't understand that. Can you please try asking something else?";
-                responseElement.id = "response";
-                main.appendChild(responseElement);
-            }*/
+            } 
 
             clearInput();
         }
