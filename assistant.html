@@ -7,45 +7,37 @@
         body{
             margin: 0px;
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            background-color: rgb(23, 23, 23);
         }
 
         .main{
-            height: 100vh;
             width: 100%;
             margin: 0px auto;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: space-evenly;;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
+            justify-content: space-evenly;
         }
         
         nav{
-            width: 100%;
-            height: 40px;
+            width: 350px;
+            height: 70px;
             text-align: center;
-            background-color: #1a1b1f;
             color: white;
             position: fixed;
             top: 0px;
             display: flex;
             align-items: center;
             justify-content: center;
+            border-bottom: 1px solid rgb(100, 100, 100);
         }
         
         #outputArea{
-            height: 450px;
-            width: 350px;
+            height: 75vh;
+            width: 300px;
             margin: 0px auto;
             padding: 20px;
-            border-radius: 20px;
-            background-color: #1a1b1f;
             overflow-y: scroll;
-            /*display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;*/
          }
 
          #outputArea::-webkit-scrollbar{
@@ -53,57 +45,54 @@
          }
          
         #output{
-            float: right;
-            max-width: 200px;
-            margin: 5px;
-            display: block;
-            background-image: linear-gradient(180deg, rgb(81, 136, 168), rgb(25, 96, 124));
+            max-width: 50%;
+            margin-left: 50%;
             background-repeat: no-repeat;
             background-attachment: local;
             color: white;
-            padding: 5px;
-            border-radius: 10px;
-            text-align: right;
-            font-size: 1.2rem;
+            padding: 10px;
+            background-color: rgb(210, 210, 210);
+            color: black;
+            border-radius: 15px;
         }
         
         #response{
-            float: left;
-            width: 300px;
-            margin: 5px;
-            display: block;
-            text-align: left;
-            padding: 5px;
-            font-size: 1.0rem;
-            font-weight: bolder;
+            max-width: 50%;
+            margin: 5px 0px;
+            padding: 10px;
             color: white;
+            background-color: rgb(100, 100, 100);
+            border-radius: 15px;
         }
         
+      .bottom-card{
+        width: 350px;
+        height: 70px;
+        position: absolute;
+        bottom: 0px;
+        border-top: 2px solid rgb(100, 100, 100);
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+      }
         input{
-            width: 300px;
+            width: 210px;
             min-height: 50px;
-            margin: 0px auto;
-            position: absolute;
-            bottom: 20px;
-            border-radius: 10px;
-            background-image: linear-gradient(180deg, #3e3f42, #2a2b30);
-            background-repeat: no-repeat;
-            background-attachment: local;
+            padding: 0px 20px;
+            background-color: rgb(210, 210, 210);
             border: none;
+            border-radius: 15px;
             font-size: 1.1rem;
-            color: white;
+            color: black;
         }
         
         button{
             height: 50px;
             width: 50px;
-            position: absolute;
-            bottom: 22px;
-            right: 60px;
             border: none;
-            border-radius: 8px;
-            background-color: #758baf;
+            background-color: rgb(100, 100, 100);
             color: white;
+            border-radius: 15px;
         }
     </style>
 </head>
@@ -162,17 +151,21 @@
             return "I was created in 2023, so I am " + age + " years old.";
         }
 
-        //The function below gets the time and should be called anytime the user asks for it
-
-        function getTime() {
+       function getTime() {
+            //Return the time in 12 hour format.
+            
             const currentTime = new Date();
             const hours = currentTime.getHours();
             const minutes = currentTime.getMinutes();
-
-            return "The local time is " + hours + " : " + minutes;
+          
+            if (hours > 12) {
+              
+              return `The local time is ${hours - 12}:${minutes} PM`;
+            }
+          
+            return `The local time is ${hours}:${minutes} AM`; 
         }
-
-        //The function below gets the current date and should be called when the user asks for the date
+              //The function below gets the current date and should be called when the user asks for the date
 
         function getDate() {
             const currentDate = new Date();
