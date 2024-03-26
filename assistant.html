@@ -295,7 +295,16 @@
                     main.appendChild(responseElement);
 
                 }
-            } 
+            }
+
+            //return a response for ambiguous and undefined requests 
+            else {
+              const responseElement = document.createElement('p');
+                    responseElement.textContent = `I'm sorry, I don't understand your request. Can you repeat that`;
+                    responseElement.id = "response";
+                    main.appendChild(responseElement);
+            }
+ 
 
             clearInput();
         }
