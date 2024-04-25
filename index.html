@@ -3,17 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Chat Buddy</title>
-    <link rel="stylesheet" href="stylesheet.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.3.0/uicons-solid-rounded/css/uicons-solid-rounded.css'>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Allerta">
+    <link rel="icon" href="robot.png" type="image/x-icon">
 </head>
 <body>
     <div class="main">
-        <nav>
-            <h1>Chat Bot</h1>
-        </nav>
-        <div id="outputArea">
-        </div>
-        <input type="text" id="input">
-        <button onclick="reply()">Go</button>
+      <nav>
+        <img src="robot.png" alt="robot logo" class="logo">
+        <h3 class="title">Chat Buddy</h3>
+      </nav>
+      <div id="outputArea"></div>
+      <div class="bottom-card">
+        <input type="text" id="input" placeholder="Type something...">
+        <button onclick="reply()"><i class="fi fi-sr-paper-plane-top"></i></button>
+      </div>
     </div>
     <script>
         const main = document.getElementById('outputArea');
@@ -26,6 +31,14 @@
             "Yes! How can I help you?",
             "Hiya! What's going on?"
         ];
+        
+        const repliesToHowAreYou = [
+          "I am doing great! What about you?",
+          "Fantastic! Hope you're doing well too?",
+          "Not bad. Yourself?",
+          "Good, thanks. And you?",
+          "I'm fine thanks. And yourself?"
+        ]
 
         const repliesToFavSong = [
             "I am not capable of enjoying music since I am not human. But I love the sound of my creator typing some more functionality into my code!",
@@ -42,8 +55,8 @@
             "Why don't skeletons fight each other? \nThey don't have guts!"
         ]
 
-        //The function below gets a random reply from any of the reply arrays when it is called
-
+        
+        //Generate a random reply from an array of predefined replies
         function getRandomReply(arr) {
             const randomIndex = Math.floor(Math.random() * arr.length);
             return arr[randomIndex];
@@ -57,7 +70,7 @@
             const dob = 2023;
             const age = currentYear - dob;
 
-            return "I was created in 2023, so I am " + age + " years old.";
+            return `I was created in 2023, so I guess it means that I am ${age} years old.`;
         }
 
        function getTime() {
@@ -66,23 +79,34 @@
             const currentTime = new Date();
             const hours = currentTime.getHours();
             const minutes = currentTime.getMinutes();
+            
+            const adjustedHours = hours > 12 ? hours - 12: hours;
+            
+            const adjustedMinutes = minutes < 10 ? '0'+minutes: minutes;
           
-            if (hours > 12) {
+            if (hours > 12 && minutes < 10) {
               
-              return `The local time is ${hours - 12}:${minutes} PM`;
+              return `The local time is ${adjustedHours}:${adjustedMinutes} PM`;
             }
+            
+            
           
-            return `The local time is ${hours}:${minutes} AM`; 
+            return `The local time is ${hours}:${adjustedMinutes} AM`; 
         }
-              //The function below gets the current date and should be called when the user asks for the date
-
+        
+        //Return the date upon request
         function getDate() {
             const currentDate = new Date();
             const year = currentDate.getFullYear();
             const month = currentDate.getMonth() + 1;
             const day = currentDate.getDate();
+            const dayName = currentDate.getDay();
+            
+            const daysOfTheWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            
+            let weekDay = daysOfTheWeek[dayName];
 
-            return "Today is " + day + " / " + month + " / " + year;
+            return `Today is ${weekDay} ${day}/${month}/${year}`;
         }
 
         //The function below is called on if the user wants to solve a simple calculation
@@ -147,10 +171,11 @@
                 responseElement.id = "response";
                 main.appendChild(responseElement);
             }
-
-            else if (query.includes("how're you") || query.includes('how you') || query.includes('you doing') || query.includes('how are you')) {
+            
+            //Reply if user asks "How're you", or a similar question.
+            else if (query.includes("how're you") || query.includes('how you') || query.includes('you doing') || query.includes('how are you') || query.includes("how's it going")) {
                 const responseElement = document.createElement('p');
-                responseElement.textContent = "I am good. What about you?";
+                responseElement.textContent = getRandomReply(repliesToHowAreYou);
                 responseElement.id = "response";
                 main.appendChild(responseElement);
             }
@@ -208,7 +233,7 @@
 
                 }
             }
-
+            
             //return a response for ambiguous and undefined requests 
             else {
               const responseElement = document.createElement('p');
@@ -216,7 +241,6 @@
                     responseElement.id = "response";
                     main.appendChild(responseElement);
             }
- 
 
             clearInput();
         }
