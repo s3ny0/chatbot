@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Chat Buddy</title>
-    <link rel="stylesheet" href="stylesheet.css">
+    <link rel="stylesheet" href="styles.css">
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.3.0/uicons-solid-rounded/css/uicons-solid-rounded.css'>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Allerta">
     <link rel="icon" href="robot.png" type="image/x-icon">
@@ -54,6 +54,10 @@
             "Why don't scientists trust atoms? \nBecause they make up everything!",
             "Why don't skeletons fight each other? \nThey don't have guts!"
         ]
+        
+        const replyToYourFunction = [
+          "I am a chatbot designed to give pre-determined responses to users based on their requests. I have been given a wide scope of processing to help me better understand and reply user queries."
+        ]
 
         
         //Generate a random reply from an array of predefined replies
@@ -72,41 +76,51 @@
 
             return `I was created in 2023, so I guess it means that I am ${age} years old.`;
         }
+        
+        function getTime() {
+          // Get the current time
+          const currentTime = new Date();
+          let hours = currentTime.getHours();
+          let minutes = currentTime.getMinutes();
+          
+          // Determine whether it's AM or PM
+          const period = hours >= 12 ? 'PM' : 'AM';
+          
+          // Convert to 12-hour format
+          if (hours > 12) {
+              hours -= 12;
+          } else if (hours === 0) {
+              hours = 12; // Midnight case
+          } else if (hours === 12) {
+              // Noon case
+              hours = 12;
+          }
+      
+          // Format minutes (adding leading zero if necessary)
+          const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+      
+          // Return the formatted time
+          return `The local time is ${hours}:${formattedMinutes} ${period}`;
+      }
+      
+      console.log(getTime());
 
-       function getTime() {
-            //Return the time in 12 hour format.
-            
-            const currentTime = new Date();
-            const hours = currentTime.getHours();
-            const minutes = currentTime.getMinutes();
-            
-            const adjustedHours = hours > 12 ? hours - 12: hours;
-            
-            const adjustedMinutes = minutes < 10 ? '0'+minutes: minutes;
-          
-            if (hours > 12 && minutes < 10) {
-              
-              return `The local time is ${adjustedHours}:${adjustedMinutes} PM`;
-            }
-            
-            
-          
-            return `The local time is ${hours}:${adjustedMinutes} AM`; 
-        }
         
         //Return the date upon request
         function getDate() {
             const currentDate = new Date();
             const year = currentDate.getFullYear();
-            const month = currentDate.getMonth() + 1;
+            const month = currentDate.getMonth();
             const day = currentDate.getDate();
             const dayName = currentDate.getDay();
             
             const daysOfTheWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            const monthsOfTheYear = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
             
             let weekDay = daysOfTheWeek[dayName];
+            let monthName = monthsOfTheYear[month];
 
-            return `Today is ${weekDay} ${day}/${month}/${year}`;
+            return `Today is ${weekDay}, ${monthName} ${day} ${year}`;
         }
 
         //The function below is called on if the user wants to solve a simple calculation
@@ -146,9 +160,16 @@
                 return result;
             }
         }
+        
+        //Structure for displaying response
+        function returnResponse (resp) {
+          const responseBubble = document.createElement('p');
+          responseBubble.id = "response";
+          responseBubble.textContent = getRandomReply(resp);
+          main.appendChild(responseBubble);
+        }
 
-        //The function below clears the input field of any characters once the go button is clicked
-
+        //Clear the input field after every query
         function clearInput() {
             input.value = "";
         }
@@ -166,32 +187,33 @@
             main.appendChild(newElement);
 
             if (query.includes("hi") || query.includes('hey') || query.includes('hello')) {
-                const responseElement = document.createElement('p');
-                responseElement.textContent = getRandomReply(repliesToHi);
-                responseElement.id = "response";
-                main.appendChild(responseElement);
+                returnResponse(repliesToHi)
             }
             
             //Reply if user asks "How're you", or a similar question.
             else if (query.includes("how're you") || query.includes('how you') || query.includes('you doing') || query.includes('how are you') || query.includes("how's it going")) {
-                const responseElement = document.createElement('p');
-                responseElement.textContent = getRandomReply(repliesToHowAreYou);
-                responseElement.id = "response";
-                main.appendChild(responseElement);
+                returnResponse(repliesToHowAreYou)
             }
-
+            //Run if user responds with "I am fine"
             else if (query.includes("i'm fine") || query.includes('also fine') || query.includes('am fine')) {
                 const responseElement = document.createElement('p');
                 responseElement.textContent = "Great! How can I assist you today?";
                 responseElement.id = "response";
                 main.appendChild(responseElement);
             }
-
+            //Run if user asks for age of chatbot.
             else if (query.includes("old are you") || query.includes('your age') || query.includes('were you created')) {
                 const responseElement = document.createElement('p');
                 responseElement.textContent = getAge();
                 responseElement.id = "response";
                 main.appendChild(responseElement);
+            }
+            
+            else if (query.includes("some of your functionalities") || query.includes("what can you do") || query.includes("how do you work")) {
+              const responseElement = document.createElement('p');
+              responseElement.textContent = getRandomReply(replyToYourFunction);
+              responseElement.id = "response";
+              main.appendChild(responseElement);
             }
 
             else if (query.includes("the time") || query.includes('time is it') || query.includes('time') || query.includes('tell me time')) {
